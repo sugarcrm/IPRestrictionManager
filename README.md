@@ -19,3 +19,6 @@ Everyone is welcome to be involved by creating or improving functionality. If yo
 
 # Licensed under Apache
 © 2016 SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
+
+# Third Party
+This tool makes use of the [symfony/http-foundation](https://github.com/symfony/http-foundation) IpUtils Library. It is slightly modified to pass Sugars Package Scanner.
