@@ -26,7 +26,7 @@ $manifest = array(
     'name' => 'IP Restriction Manager',
     'published_date' => '2016-07-07 12:00:00',
     'type' => 'module',
-    'version' => '2.0',
+    'version' => '2.1',
     'remove_tables' => 'prompt'
 );
 
