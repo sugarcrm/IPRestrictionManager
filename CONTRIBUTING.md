@@ -21,4 +21,4 @@ Pull requests are accepted under the discretion of SugarCRM Developer Support. I
 
 File bugs or feature requests using Github Issue Tracker.
 
-https://github.com/sugarcrm/HistoricalSummary/issues
+https://github.com/sugarcrm/IPRestrictionManager/issues

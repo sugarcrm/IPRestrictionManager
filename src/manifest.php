@@ -24,12 +24,11 @@ $manifest = array(
     'icon' => '',
     'is_uninstallable' => true,
     'name' => 'IP Restriction Manager',
-    'published_date' => '2016-07-07 12:00:00',
+    'published_date' => '2017-05-04 12:00:00',
     'type' => 'module',
     'version' => '2.1',
     'remove_tables' => 'prompt'
 );
-
 
 $installdefs = array(
     'id' => 'IP_Restriction_Manager',

@@ -154,10 +154,14 @@ class IRM_IPRestrictionManager extends IRM_IPRestrictionManager_sugar
         $sugarQuery->select(array('id'));
         $sugarQuery->from($userObj);
         $sugarQuery->where()->equals('user_name', $args['username']);
-        $sql = $sugarQuery->compileSql();
-        $userId = $this->db->getOne($sql);
+        $sugarQuery->limit(1);
 
-        if (!empty($userId)) {
+        $userId = false;
+        foreach($sugarQuery->execute() as $row) {
+           $userId = $row['id'];
+        }
+
+        if ($userId !== false) {
             $restrictions = $this->getUserRestrictions($userId);
 
             //if we find restrictions, we need to see if any ranges are matched
