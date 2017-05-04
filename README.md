@@ -52,7 +52,7 @@ Once completed, the installer .zip package will be located under `./builds/` and
 * English
 
 # Contributing
-Everyone is welcome to be involved by creating or improving functionality. If you would like to contribute, please make sure to review the [CONTRIBUTION TERMS](CONTRIBUTION_TERMS.pdf). When you update this [README](README.md), please check out the [contribution guidelines](CONTRIBUTING.md) for helpful hints and tips that will make it easier to accept your pull request.
+Everyone is welcome to be involved by creating or improving functionality. If you would like to contribute, please make sure to review the [contribution terms](CONTRIBUTOR_TERMS.pdf). When you update this [README](README.md), please check out the [contribution guidelines](CONTRIBUTING.md) for helpful hints and tips that will make it easier to accept your pull request.
 
 ## Contributors
 [Jerry Clark](https://github.com/geraldclark)
