@@ -6,8 +6,8 @@ The IP Restriction Manager plugin allows a Sugar Administrator to setup restrict
 # Release Notes
 * 2.1
     * Corrections For SugarCRM HealthCheck
-        * Removed use of SugarQuery::compileSQL
-        * Removed use of app.view.invokeParent
+        * Removed use of `SugarQuery->compileSQL()`
+        * Removed use of `app.view.invokeParent`
 * 1.0
     * Initial release of the IP Restriction Manager package
 
