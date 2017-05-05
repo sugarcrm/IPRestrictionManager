@@ -120,7 +120,7 @@ UPDATE irm_iprestrictionmanager SET status = 'Disabled' WHERE deleted = 0;
 ```
 
 ### Option 2 - File Change
-If you have file system access, modify the function `validateAPI` in `./modules/IRM_IPRestrictionManager/IRM_IPRestrictionManager.php` to be:
+If you have file system access, modify the function `validateAPI` in `./modules/IRM_IPRestrictionManager/IRM_IPRestrictionManager.php` to return before the validation logic:
 ```
 public function validateAPI($api, $username, $platform)
 {
