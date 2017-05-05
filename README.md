@@ -72,7 +72,7 @@ Manual steps to remove the plugin. Once the following sections are complete, nav
 
 ### Files to Remove
 * ./modules/IRM_IPRestrictionManager/*
-* custom/src/Symfony/Component/HttpFoundation/*
+* ./custom/src/Symfony/Component/HttpFoundation/*
 * ./custom/clients/base/api/CustomOAuth2Api.php
 * ./custom/clients/base/api/CustomCurrentUserApi.php
 * ./custom/Extension/modules/IRM_IPRestrictionManager/*
@@ -109,7 +109,7 @@ Please note these should only be removed if you are not planning to install an u
 * irm_iprestrictionmanager_users_c
 
 # Recovering When Locked Out
-Should a situation occur where you are unable to authenticate, you can use the section below to regain access to the system. You should note that the the IP Restriction Manager is disabled if the user is logging in from `localhost` or `127.0.0.1`.
+Should a situation occur where you are unable to authenticate, you can use the section below to regain access to the system. You should note that the the IP Restriction Manager is always disabled if the user is logging in from `localhost` or `127.0.0.1`.
 
 ## On-Site
 
