@@ -107,7 +107,7 @@ Please note these should only be removed if you are not planning to install an u
 * irm_iprestrictionmanager_users_c
 
 # Recovering When Locked Out
-Should a situation occur where you are unable to authenticate, you can use the section below to regain access to the system. You should note that the the IP Restriction Manager is disabled if the user is logging in from localhost or 127.0.0.1.
+Should a situation occur where you are unable to authenticate, you can use the section below to regain access to the system. You should note that the the IP Restriction Manager is disabled if the user is logging in from `localhost` or `127.0.0.1`.
 
 ## On-Site
 
@@ -119,7 +119,6 @@ UPDATE irm_iprestrictionmanager SET status = 'Disabled' WHERE deleted = 0;
 
 ### Option 2
 If you have file system access, you can comment the following lines in `./custom/clients/base/api/CustomOAuth2Api.php`:
-
 ```
 if (SugarAutoLoader::fileExists("modules/IRM_IPRestrictionManager/IRM_IPRestrictionManager.php"))
 {
@@ -148,6 +147,50 @@ if (SugarAutoLoader::fileExists("modules/IRM_IPRestrictionManager/IRM_IPRestrict
 
 ## On-Demand
 If you are On-Demand, you will need to submit a support ticket by logging into http://www.sugarcrm.com/support/portal. Please describe the issue you are experiencing, reference the IP Restriction Manager, and provide a link to this documentation.
+
+# Using the Module
+Documentation on the use and administration of ip restrictions.
+
+## Navigating to the IP Restriction Manager
+The Ip Restriction Module is only accessible to system administrators. An administrator can navigate to the module in two different ways.
+1. Navigating directly to `/#IRM_IPRestrictionManager` in the browsers url
+2. Navigating to Admin > IP Restriction Management 
+
+## Administering IP Restrictions
+To create a restriction, you will need to click “Create” from the IP Restriction Modules submenu tabs.
+
+The fields presented on the quick create are outlines below:
+
+
+### IP Range 
+Type: Text
+
+The IP restrictions you would like to implement. Valid restriction types are:
+* Specific IP format: 1.2.3.4
+* Wildcard format: 1.2.3.*
+* CIDR format: 1.2.3/24  OR  1.2.3.4/255.255.255.0
+* Start-End IP format: 1.2.3.4-1.2.3.5 
+
+### Status
+Type: Dropdown
+
+Whether or not the restriction is enabled/disabled. If the status is ‘Disabled’, the restriction will not be in effect.
+
+### Platforms
+Type: Multi-Select
+
+The allowed platforms a user is allowed to authenticate to. Available options are:
+* All - all platforms
+* Base (Sugar) - Sugar UI only
+* Mobile - Mobile devices only
+
+#### Adding Platforms
+Adminitrators may need to add additional supported platforms to account for intergrations and plugins. To achieve this, navigate to `Admin > Dropdown Editor` and find the `ip_restriction_platforms_list` dropdown list. Next, add the new platform type making sure that the `Item Name` field matches the platform type being passed to the Sugar REST v10 API. You can make the `Display Label` field anything you would like. Click save when done.
+
+### Description
+Type: Text
+
+A description of the restriction for administrative use.
 
 # Contributing
 Everyone is welcome to be involved by creating or improving functionality. If you would like to contribute, please make sure to review the [contribution terms](CONTRIBUTOR_TERMS.pdf). When you update this [README](README.md), please check out the [contribution guidelines](CONTRIBUTING.md) for helpful hints and tips that will make it easier to accept your pull request.
