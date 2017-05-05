@@ -39,13 +39,13 @@ To build the installer package, you will need to download the contents on this r
 ```
 php build.php
 ```
-Once completed, the installer .zip package will be located under `./builds/` and can me installed using Module Loader
+Once completed, the installer `*.zip` package will be located under `./builds/` and can me installed using Module Loader
 
 # Installation
 Installation instructions for generating and installing a module loadable package.
 
 1. Login to your SugarCRM instance with an administrator account.
-2. Navigate to Admin > Module Loader
+2. Navigate to `Admin > Module Loader`
 3. Browse to the IP Restriction Manager Package and upload it.
 4. Click the Install button for the IP Restriction Manager package.
 5. If you agree to the License Agreement, select ‘Accept’ and click ‘Commit’.
@@ -62,13 +62,13 @@ Steps for uninstalling the plugin.
 
 ## Through Module Loader
 1. Login to your Sugar instance with an administrator account.
-2. Navigate to Admin > Module Loader
+2. Navigate to `Admin > Module Loader`
 3. Find the ‘IP Restriction Manager’ entry in the list of installed plugins and click ‘Uninstall’.
 4. a) If you are planning to install an updated package, you will want to select ‘Do Not Remove Tables’. Please note that this is very important. Doing this will leave all relationship, template and backup records intact for when you install the updated package.    
    b) If you are not planning to continue using the IP Restriction Manager in the future, you will want to select ‘Remove Tables’.
    
 ## Through FileSystem
-Manual steps to remove the plugin. Once the following sections are complete, navigate to Admin > Repair and run a ‘Quick Repair and Rebuild’.
+Manual steps to remove the plugin. Once the following sections are complete, navigate to `Admin > Repair` and run a `Quick Repair and Rebuild`.
 
 ### Files to Remove
 * modules/IRM_IPRestrictionManager/*
@@ -153,13 +153,12 @@ Documentation on the use and administration of ip restrictions.
 ## Navigating to the IP Restriction Manager
 The Ip Restriction Module is only accessible to system administrators. An administrator can navigate to the module in two different ways.
 1. Navigating directly to `/#IRM_IPRestrictionManager` in the browsers url
-2. Navigating to Admin > IP Restriction Management 
+2. Navigating to `Admin > IP Restriction Management`
 
 ## Administering IP Restrictions
 To create a restriction, you will need to click “Create” from the IP Restriction Modules submenu tabs.
 
 The fields presented on the quick create are outlines below:
-
 
 ### IP Range 
 Type: Text
