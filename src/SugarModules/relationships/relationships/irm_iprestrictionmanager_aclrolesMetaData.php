@@ -21,36 +21,31 @@ $dictionary["irm_iprestrictionmanager_aclroles"] = array(
     'table' => 'irm_iprestrictionmanager_aclroles_c',
     'fields' =>
         array(
-            0 =>
+            'id' =>
                 array(
                     'name' => 'id',
-                    'type' => 'varchar',
-                    'len' => 36,
+                    'type' => 'id',
                 ),
-            1 =>
+            'date_modified' =>
                 array(
                     'name' => 'date_modified',
                     'type' => 'datetime',
                 ),
-            2 =>
+            'deleted' =>
                 array(
                     'name' => 'deleted',
                     'type' => 'bool',
-                    'len' => '1',
                     'default' => '0',
-                    'required' => true,
                 ),
-            3 =>
+            'irm_iprestrictionmanager_aclrolesirm_iprestrictionmanager_ida' =>
                 array(
                     'name' => 'irm_iprestrictionmanager_aclrolesirm_iprestrictionmanager_ida',
-                    'type' => 'varchar',
-                    'len' => 36,
+                    'type' => 'id'
                 ),
-            4 =>
+            'irm_iprestrictionmanager_aclrolesaclroles_idb' =>
                 array(
                     'name' => 'irm_iprestrictionmanager_aclrolesaclroles_idb',
-                    'type' => 'varchar',
-                    'len' => 36,
+                    'type' => 'id'
                 ),
         ),
     'indices' =>

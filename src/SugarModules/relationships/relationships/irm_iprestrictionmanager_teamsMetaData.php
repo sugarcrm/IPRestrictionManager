@@ -21,36 +21,31 @@ $dictionary["irm_iprestrictionmanager_teams"] = array(
     'table' => 'irm_iprestrictionmanager_teams_c',
     'fields' =>
         array(
-            0 =>
+            'id' =>
                 array(
                     'name' => 'id',
-                    'type' => 'varchar',
-                    'len' => 36,
+                    'type' => 'id'
                 ),
-            1 =>
+            'date_modified' =>
                 array(
                     'name' => 'date_modified',
                     'type' => 'datetime',
                 ),
-            2 =>
+            'deleted' =>
                 array(
                     'name' => 'deleted',
                     'type' => 'bool',
-                    'len' => '1',
                     'default' => '0',
-                    'required' => true,
                 ),
-            3 =>
+            'irm_iprestrictionmanager_teamsirm_iprestrictionmanager_ida' =>
                 array(
                     'name' => 'irm_iprestrictionmanager_teamsirm_iprestrictionmanager_ida',
-                    'type' => 'varchar',
-                    'len' => 36,
+                    'type' => 'id',
                 ),
-            4 =>
+            'irm_iprestrictionmanager_teamsteams_idb' =>
                 array(
                     'name' => 'irm_iprestrictionmanager_teamsteams_idb',
-                    'type' => 'varchar',
-                    'len' => 36,
+                    'type' => 'id',
                 ),
         ),
     'indices' =>
