@@ -39,7 +39,7 @@ To build the installer package, you will need to download the contents on this r
 ```
 php build.php
 ```
-Once completed, the installer `*.zip` package will be located under `./builds/` and can me installed using Module Loader
+Once completed, the installer `*.zip` package will be located under `./builds/` and can be installed using `Admin > Module Loader`
 
 # Installation
 Installation instructions for generating and installing a module loadable package.
