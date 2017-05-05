@@ -200,5 +200,5 @@ Everyone is welcome to be involved by creating or improving functionality. If yo
 © 2017 SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
 
 ## Third Party Libraries
-* Symfony HttpFoundation Component - MIT - The HttpFoundation component defines an object-oriented layer for the HTTP specification. This plugin makes use of the symfony/http-foundation IpUtils Library. It is slightly modified to pass Sugars Package Scanner.
+* Symfony HttpFoundation Component (3.2.8) - MIT - The HttpFoundation component defines an object-oriented layer for the HTTP specification. This plugin makes use of the symfony/http-foundation IpUtils Library. It is slightly modified to pass Sugars Package Scanner.
     * [Github](https://github.com/symfony/http-foundation)
