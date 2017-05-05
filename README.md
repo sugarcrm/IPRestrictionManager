@@ -3,24 +3,55 @@ This is the Users Guide for the IP Restriction Manager plugin version 2.x.
 
 The IP Restriction Manager plugin allows a Sugar Administrator to setup restrictive IP ranges for authentication. These ranges can be specific to a user, team, role or combination of all three. IP ranges can be specified in the following formats: specific, wildcard, CIDR and Start-End
 
-# Installation
-Installation instructions for generating and installing a module loadable package.
+# Release Notes
+* 1.0
+    * Initial release of the IP Restriction Manager package
+* 2.1
+    * Corrections For SugarCRM HealthCheck
+        * Removed use of SugarQuery::compileSQL
+        * Removed use of app.view.invokeParent
 
-## Building Installer Package
+
+# Prerequisites
+Requirements for installation
+
+## Supported Versions
+* 7.7.x
+* 7.8.x
+* 7.9.x
+
+## Supported Editions
+* Professional
+* Corporate
+* Enterprise
+* Ultimate
+
+## Supported Databases
+* MySQL
+* MSSQL
+* Oracle
+* DB2
+
+## Supported Languages
+* English
+
+# Generating The Module Loader Package
 To build the installer package, you will need to download the contents on this repository and execute:
 ```
 php build.php
 ```
 Once completed, the installer .zip package will be located under `./builds/` and can me installed using Module Loader
 
-## Installing Package
+# Installation
+Installation instructions for generating and installing a module loadable package.
+
 1. Login to your SugarCRM instance with an administrator account.
 2. Navigate to Admin > Module Loader
 3. Browse to the IP Restriction Manager Package and upload it.
 4. Click the Install button for the IP Restriction Manager package.
 5. If you agree to the License Agreement, select ‘Accept’ and click ‘Commit’.
 
-## Upgrading
+# Upgrading
 When upgrading to the latest release, there are several important steps to follow.
 1. Make a backup of your SugarCRM filesystem.
 2. Make a backup of your SugarCRM database.
@@ -30,16 +61,15 @@ When upgrading to the latest release, there are several important steps to follo
 # Uninstallation
 Steps for uninstalling the plugin.
 
-## Uninstalling Through Module Loader
+## Through Module Loader
 1. Login to your Sugar instance with an administrator account.
 2. Navigate to Admin > Module Loader
 3. Find the ‘IP Restriction Manager’ entry in the list of installed plugins and click ‘Uninstall’.
 4. a) If you are planning to install an updated package, you will want to select ‘Do Not Remove Tables’. Please note that this is very important. Doing this will leave all relationship, template and backup records intact for when you install the updated package.    
    b) If you are not planning to continue using the IP Restriction Manager in the future, you will want to select ‘Remove Tables’.
    
-## Uninstalling Through FileSystem
+## Through FileSystem
 Manual steps to remove the plugin. Once the following sections are complete, navigate to Admin > Repair and run a ‘Quick Repair and Rebuild’.
-
 
 ### Files to Remove
 * modules/IRM_IPRestrictionManager/*
@@ -76,37 +106,48 @@ Please note these should only be removed if you are not planning to install an u
 * irm_iprestrictionmanager_teams_c
 * irm_iprestrictionmanager_users_c
 
-# Release Notes
-* 1.0
-    * Initial release of the IP Restriction Manager package
-* 2.1
-    * Corrections For SugarCRM HealthCheck
-        * Removed use of SugarQuery::compileSQL
-        * Removed use of app.view.invokeParent
+# Recovering When Locked Out
+Should a situation occur where you are unable to authenticate, you can use the section below to regain access to the system. You should note that the the IP Restriction Manager is disabled if the user is logging in from localhost or 127.0.0.1.
 
+## On-Site
 
-# Prerequisites
-Requirements for installation
+### Option 1
+If you have database access, you can run the following database query to disable all restrictions:
+```
+UPDATE irm_iprestrictionmanager SET status = 'Disabled' WHERE deleted = 0;
+```
 
-## Supported Versions
-* 7.7.x
-* 7.8.x
-* 7.9.x
+### Option 2
+If you have file system access, you can comment the following lines in `./custom/clients/base/api/CustomOAuth2Api.php`:
 
-## Supported Editions
-* Professional
-* Corporate
-* Enterprise
-* Ultimate
+```
+if (SugarAutoLoader::fileExists("modules/IRM_IPRestrictionManager/IRM_IPRestrictionManager.php"))
+{
+    //check IP range for user
+    $IPRestrictionsObj = BeanFactory::newBean('IRM_IPRestrictionManager');
+    $isValidRange = $IPRestrictionsObj->validateUser($args);
 
-## Supported Databases
-* MySQL
-* MSSQL
-* Oracle
-* DB2
+    if (!$isValidRange)
+    {
+        //expire cookie
+        if (isset($response['access_token']))
+        {
+            parent::logout($api, array(
+                'token' => $response['access_token']
+            ));
+        }
 
-## Supported Languages
-* English
+        $beginning = translate("LBL_ERROR_BEGINNING",'IRM_IPRestrictionManager');
+        $join = translate("LBL_ERROR_JOIN",'IRM_IPRestrictionManager');
+
+        $e = new SugarApiExceptionNeedLogin("{$beginning} ({$IPRestrictionsObj->getIpAddress()}) {$join} ({$args['platform']}).");
+        $api->needLogin($e);
+    }
+}
+```
+
+## On-Demand
+If you are On-Demand, you will need to submit a support ticket by logging into http://www.sugarcrm.com/support/portal. Please describe the issue you are experiencing, reference the IP Restriction Manager, and provide a link to this documentation.
 
 # Contributing
 Everyone is welcome to be involved by creating or improving functionality. If you would like to contribute, please make sure to review the [contribution terms](CONTRIBUTOR_TERMS.pdf). When you update this [README](README.md), please check out the [contribution guidelines](CONTRIBUTING.md) for helpful hints and tips that will make it easier to accept your pull request.
