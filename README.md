@@ -71,30 +71,33 @@ Steps for uninstalling the plugin.
 Manual steps to remove the plugin. Once the following sections are complete, navigate to `Admin > Repair` and run a `Quick Repair and Rebuild`.
 
 ### Files to Remove
-* modules/IRM_IPRestrictionManager/*
-* custom/Extension/modules/IRM_IPRestrictionManager/*
-* custom/Extension/modules/Administration/Ext/Administration/IPRestrictionManager.php
-* custom/Extension/modules/Administration/Ext/Language/en_us.IPRestrictionManager.php
-* custom/Extension/modules/Users/Ext/Language/{language key}.IP_Restriction_Manager.php
-* custom/Extension/modules/Users/Ext/Layoutdefs/irm_iprestrictionmanager_users_Users.php
-* custom/Extension/modules/Users/Ext/Vardefs/irm_iprestrictionmanager_users_Users.php
-* custom/Extension/modules/Users/Ext/WirelessLayoutdefs/irm_iprestrictionmanager_users_Users.php
-* custom/Extension/modules/Teams/Ext/Language/{language key}.IP_Restriction_Manager.php
-* custom/Extension/modules/Teams/Ext/Layoutdefs/irm_iprestrictionmanager_teams_Teams.php
-* custom/Extension/modules/Teams/Ext/Vardefs/irm_iprestrictionmanager_teams_Teams.php
-* custom/Extension/modules/Teams/Ext/WirelessLayoutdefs/irm_iprestrictionmanager_teams_Teams.php
-* custom/Extension/modules/ACLRoles/Ext/Language/{language key}.IP_Restriction_Manager.php
-* custom/Extension/modules/ACLRoles/Ext/Layoutdefs/irm_iprestrictionmanager_aclroles_ACLRoles.php
-* custom/Extension/modules/ACLRoles/Ext/Vardefs/irm_iprestrictionmanager_aclroles_ACLRoles.php
-* custom/Extension/modules/ACLRoles/Ext/WirelessLayoutdefs/irm_iprestrictionmanager_aclroles_ACLRoles.php
+* ./modules/IRM_IPRestrictionManager/*
+* custom/src/Symfony/Component/HttpFoundation/*
+* ./custom/clients/base/api/CustomOAuth2Api.php
+* ./custom/clients/base/api/CustomCurrentUserApi.php
+* ./custom/Extension/modules/IRM_IPRestrictionManager/*
+* ./custom/Extension/modules/Administration/Ext/Administration/IPRestrictionManager.php
+* ./custom/Extension/modules/Administration/Ext/Language/en_us.IPRestrictionManager.php
+* ./custom/Extension/modules/Users/Ext/Language/{language key}.IP_Restriction_Manager.php
+* ./custom/Extension/modules/Users/Ext/Layoutdefs/irm_iprestrictionmanager_users_Users.php
+* ./custom/Extension/modules/Users/Ext/Vardefs/irm_iprestrictionmanager_users_Users.php
+* ./custom/Extension/modules/Users/Ext/WirelessLayoutdefs/irm_iprestrictionmanager_users_Users.php
+* ./custom/Extension/modules/Teams/Ext/Language/{language key}.IP_Restriction_Manager.php
+* ./custom/Extension/modules/Teams/Ext/Layoutdefs/irm_iprestrictionmanager_teams_Teams.php
+* ./custom/Extension/modules/Teams/Ext/Vardefs/irm_iprestrictionmanager_teams_Teams.php
+* ./custom/Extension/modules/Teams/Ext/WirelessLayoutdefs/irm_iprestrictionmanager_teams_Teams.php
+* ./custom/Extension/modules/ACLRoles/Ext/Language/{language key}.IP_Restriction_Manager.php
+* ./custom/Extension/modules/ACLRoles/Ext/Layoutdefs/irm_iprestrictionmanager_aclroles_ACLRoles.php
+* ./custom/Extension/modules/ACLRoles/Ext/Vardefs/irm_iprestrictionmanager_aclroles_ACLRoles.php
+* ./custom/Extension/modules/ACLRoles/Ext/WirelessLayoutdefs/irm_iprestrictionmanager_aclroles_ACLRoles.php
 
 These files should also be removed so they can be rebuilt by the extensions framework.
-* custom/application/Ext/Include/modules.ext.php
-* custom/application/Ext/TableDictionary/tabledictionary.ext.php
-* cache/file_map.php
-* custom/modules/Users/Ext/*
-* custom/modules/Teams/Ext/*
-* custom/modules/Roles/Ext/*
+* ./custom/application/Ext/Include/modules.ext.php
+* ./custom/application/Ext/TableDictionary/tabledictionary.ext.php
+* ./cache/file_map.php
+* ./custom/modules/Users/Ext/*
+* ./custom/modules/Teams/Ext/*
+* ./custom/modules/Roles/Ext/*
 
 ### Tables to Remove
 Please note these should only be removed if you are not planning to install an updated version.
@@ -110,37 +113,19 @@ Should a situation occur where you are unable to authenticate, you can use the s
 
 ## On-Site
 
-### Option 1
+### Option 1 - Database Update
 If you have database access, you can run the following database query to disable all restrictions:
 ```
 UPDATE irm_iprestrictionmanager SET status = 'Disabled' WHERE deleted = 0;
 ```
 
-### Option 2
-If you have file system access, you can comment the following lines in `./custom/clients/base/api/CustomOAuth2Api.php`:
+### Option 2 - File Change
+If you have file system access, modify the function `validateAPI` in `./modules/IRM_IPRestrictionManager/IRM_IPRestrictionManager.php` to be:
 ```
-if (SugarAutoLoader::fileExists("modules/IRM_IPRestrictionManager/IRM_IPRestrictionManager.php"))
+public function validateAPI($api, $username, $platform)
 {
-    //check IP range for user
-    $IPRestrictionsObj = BeanFactory::newBean('IRM_IPRestrictionManager');
-    $isValidRange = $IPRestrictionsObj->validateUser($args);
-
-    if (!$isValidRange)
-    {
-        //expire cookie
-        if (isset($response['access_token']))
-        {
-            parent::logout($api, array(
-                'token' => $response['access_token']
-            ));
-        }
-
-        $beginning = translate("LBL_ERROR_BEGINNING",'IRM_IPRestrictionManager');
-        $join = translate("LBL_ERROR_JOIN",'IRM_IPRestrictionManager');
-
-        $e = new SugarApiExceptionNeedLogin("{$beginning} ({$IPRestrictionsObj->getIpAddress()}) {$join} ({$args['platform']}).");
-        $api->needLogin($e);
-    }
+    return;
+    ...
 }
 ```
 
@@ -156,7 +141,7 @@ The Ip Restriction Module is only accessible to system administrators. An admini
 2. Navigating to `Admin > IP Restriction Management`
 
 ## Administering IP Restrictions
-To create a restriction, you will need to click “Create” from the IP Restriction Modules submenu tabs.
+To create a restriction, you will need to click “Create” from the IP Restriction Modules submenu tabs. New restrictions will be in effect when current users refresh the browser or reauthenticate.
 
 The fields presented on the quick create are outlines below:
 

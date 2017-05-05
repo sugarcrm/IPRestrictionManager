@@ -99,6 +99,10 @@ $installdefs = array(
             'to' => 'custom/clients/base/api/CustomOAuth2Api.php'
         ),
         array(
+            'from' => '<basepath>/copy/custom/clients/base/api/CustomCurrentUserApi.php',
+            'to' => 'custom/clients/base/api/CustomCurrentUserApi.php'
+        ),
+        array(
             'from' => '<basepath>/copy/custom/Extension/modules/IRM_IPRestrictionManager/Ext/Vardefs/aclRestrictions.php',
             'to' => 'custom/Extension/modules/IRM_IPRestrictionManager/Ext/Vardefs/aclRestrictions.php'
         ),
