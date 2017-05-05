@@ -20,6 +20,9 @@ class IRM_IPRestrictionManager extends IRM_IPRestrictionManager_sugar
         self::__construct();
     }
 
+    /**
+     * IRM_IPRestrictionManager constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -74,6 +77,7 @@ class IRM_IPRestrictionManager extends IRM_IPRestrictionManager_sugar
      * Fetches the restrictions for a given user id.
      *
      * @param $userId
+     * @return array
      */
     public function getUserRestrictions($userId)
     {
@@ -132,10 +136,14 @@ class IRM_IPRestrictionManager extends IRM_IPRestrictionManager_sugar
 
     /**
      * Validates a users allowed IP range.
-     * @param $args
-     * @param $allowLocal
+     *
+     * @param $username
+     * @param $platform
+     * @param bool $allowLocal
+     * @return bool
+     * @throws SugarQueryException
      */
-    public function validateUser($args, $allowLocal = true)
+    public function validateUser($username, $platform, $allowLocal = true)
     {
         //all users are validated unless we find restrictions for them
         $isValidated = true;
@@ -153,12 +161,12 @@ class IRM_IPRestrictionManager extends IRM_IPRestrictionManager_sugar
         //find user
         $sugarQuery->select(array('id'));
         $sugarQuery->from($userObj);
-        $sugarQuery->where()->equals('user_name', $args['username']);
+        $sugarQuery->where()->equals('user_name', $username);
         $sugarQuery->limit(1);
 
         $userId = false;
         foreach($sugarQuery->execute() as $row) {
-           $userId = $row['id'];
+            $userId = $row['id'];
         }
 
         if ($userId !== false) {
@@ -171,7 +179,7 @@ class IRM_IPRestrictionManager extends IRM_IPRestrictionManager_sugar
 
             foreach ($restrictions as $restriction) {
                 //if restriction is enabled and platform is valid
-                if ($this->hasString(array('^All^', '^' . $args['platform'] . '^'), $restriction->platforms)) {
+                if ($this->hasString(array('^All^', '^' . $platform . '^'), $restriction->platforms)) {
                     if (!$this->validateRange($ip, $restriction->ip_range)) {
                         $GLOBALS['log']->info($this->prefix . "{$restriction->id} :: Validating ip '{$ip}' against range '{$restriction->ip_range}' failed.");
                     } else {
@@ -179,15 +187,43 @@ class IRM_IPRestrictionManager extends IRM_IPRestrictionManager_sugar
                         $isValidated = true;
                     }
                 } else {
-                    $GLOBALS['log']->info($this->prefix . "{$restriction->id} :: The platform '{$args['platform']}'' did not have a match in {$restriction->platforms}");
+                    $GLOBALS['log']->info($this->prefix . "{$restriction->id} :: The platform '{$platform}'' did not have a match in {$restriction->platforms}");
                 }
             }
 
         } else {
-            $GLOBALS['log']->fatal($this->prefix . "{$args['username']} is not a valid user.");
+            $GLOBALS['log']->fatal($this->prefix . "{$username} is not a valid user.");
         }
 
         return $isValidated;
+    }
+
+    /**
+     * Validates the api request
+     *
+     * @param $api
+     * @param $username
+     * @param $platform
+     */
+    public function validateAPI($api, $username, $platform)
+    {
+        //check IP range for user
+        $isValidRange = $this->validateUser($username, $platform);
+
+        if (!$isValidRange) {
+            //expire cookie
+            if (isset($response['access_token'])) {
+                parent::logout($api, array(
+                    'token' => $response['access_token']
+                ));
+            }
+
+            $beginning = translate("LBL_ERROR_BEGINNING", 'IRM_IPRestrictionManager');
+            $join = translate("LBL_ERROR_JOIN", 'IRM_IPRestrictionManager');
+
+            $e = new SugarApiExceptionNeedLogin("{$beginning} ({$this->getIpAddress()}) {$join} ({$platform}).");
+            $api->needLogin($e);
+        }
     }
 
     /**
