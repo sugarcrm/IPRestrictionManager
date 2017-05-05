@@ -6,13 +6,24 @@ require_once("clients/base/api/OAuth2Api.php");
 
 class CustomOAuth2Api extends OAuth2Api
 {
+    /**
+     * Register api endpoints
+     * @return array
+     */
     public function registerApiRest()
     {
         //in case we want to add additional endpoints
         return parent::registerApiRest();
     }
 
-    //override to modify the token function
+    /**
+     * Override to monitor the token function
+     * @param $api
+     * @param $args
+     * @throws OAuth2ServerException
+     * @throws SugarApiExceptionClientOutdated
+     * @throws SugarApiExceptionInvalidParameter
+     */
     public function token($api, $args)
     {
         //continue with authentication

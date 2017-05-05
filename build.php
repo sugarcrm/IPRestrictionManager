@@ -41,6 +41,7 @@ foreach ($files as $name => $file) {
 
 $license = 'LICENSE.txt';
 $zip->addFile($license, $license);
+$zip->addFile('README.md', 'README.txt');
 echo " [*] $license \n";
 
 $zip->close();

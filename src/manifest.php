@@ -16,7 +16,7 @@ $manifest = array(
         'ENT',
         'ULT'
     ),
-    'readme' => '',
+    'readme' => 'README.txt',
     'key' => 'IRM',
     'author' => 'SugarCRM Developer Support',
     'description' => 'Allows for the ability to restrict user logins to specific ranges of ip addresses.',
