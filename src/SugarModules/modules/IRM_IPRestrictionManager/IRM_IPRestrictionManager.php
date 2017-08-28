@@ -32,6 +32,10 @@ class IRM_IPRestrictionManager extends IRM_IPRestrictionManager_sugar
      */
     public function validateRange($ip, $range)
     {
+        if ($range == '*' || $range == '*.*.*.*') {
+            return true;
+        }
+
         //handle wildcard addresses
         if ($this->hasString('*', $range)) {
             $range = str_replace('*', '0', $range) . '-' . str_replace('*', '255', $range);

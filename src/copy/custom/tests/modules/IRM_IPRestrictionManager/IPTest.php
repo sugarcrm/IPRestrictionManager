@@ -29,6 +29,10 @@ class IPTest extends Sugar_PHPUnit_Framework_TestCase
     {
         $bean = \BeanFactory::newBean("IRM_IPRestrictionManager");
 
+        //Any
+        $this->assertTrue($bean->validateRange('1.2.3.4', '*'));
+        $this->assertTrue($bean->validateRange('1.2.3.4', '*.*.*.*'));
+
         //Specific
         $this->assertTrue($bean->validateRange('1.2.3.4', '1.2.3.4'));
         $this->assertFalse($bean->validateRange('1.2.3.4', '1.2.3.5'));
