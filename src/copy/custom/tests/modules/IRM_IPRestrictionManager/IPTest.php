@@ -43,8 +43,8 @@ class IPTest extends Sugar_PHPUnit_Framework_TestCase
 
         //CIDR
         $this->assertTrue($bean->validateRange('1.2.3.4', '1.2.3.4/32'));
-        $this->assertTrue($bean->validateRange('1.2.3.4', '1.3.3.4/32'));
-        
+        $this->assertFalse($bean->validateRange('1.2.3.4', '1.3.3.4/32'));
+
         //Range
         $this->assertTrue($bean->validateRange('1.2.3.4', '1.2.3.*'));
         $this->assertFalse($bean->validateRange('1.2.3.4', '1.2.2.*'));
