@@ -113,6 +113,10 @@ $installdefs = array(
         array(
             'from' => '<basepath>/copy/custom/src/Symfony/Component/HttpFoundation/LICENSE.txt',
             'to' => 'custom/src/Symfony/Component/HttpFoundation/LICENSE.txt'
+        ),
+        array(
+            'from' => '<basepath>/copy/custom/tests/',
+            'to' => 'custom/tests/'
         )
     ),
     'language' => array(
