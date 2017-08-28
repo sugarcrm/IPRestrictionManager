@@ -1,4 +1,7 @@
 # IP Restriction Manager
+[![Build Status](https://travis-ci.org/sugarcrm/IPRestrictionManager.svg?branch=master)](https://travis-ci.org/sugarcrm/IPRestrictionManager)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg?style=flat-square)](https://php.net/)
+
 This is the Users Guide for the IP Restriction Manager plugin version 2.x.  
 
 The IP Restriction Manager plugin allows a Sugar Administrator to setup restrictive IP ranges for authentication. These ranges can be specific to a user, team, role or combination of all three. IP ranges can be specified in the following formats: specific, wildcard, CIDR and Start-End
@@ -72,6 +75,7 @@ Manual steps to remove the plugin. Once the following sections are complete, nav
 
 ### Files to Remove
 * ./modules/IRM_IPRestrictionManager/*
+* ./custom/tests/modules/IRM_IPRestrictionManager/*
 * ./custom/src/Symfony/Component/HttpFoundation/*
 * ./custom/clients/base/api/CustomOAuth2Api.php
 * ./custom/clients/base/api/CustomCurrentUserApi.php
