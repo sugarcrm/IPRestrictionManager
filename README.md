@@ -155,6 +155,7 @@ Type: Text
 The IP restrictions you would like to implement. Valid restriction types are:
 * Specific IP format: 1.2.3.4
 * Wildcard format: 1.2.3.*
+   * you may use `*` or `*.*.*.*` to signify any ip address
 * CIDR format: 1.2.3/24  OR  1.2.3.4/255.255.255.0
 * Start-End IP format: 1.2.3.4-1.2.3.5 
 
