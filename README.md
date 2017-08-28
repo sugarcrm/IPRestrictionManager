@@ -75,6 +75,7 @@ Manual steps to remove the plugin. Once the following sections are complete, nav
 
 ### Files to Remove
 * ./modules/IRM_IPRestrictionManager/*
+* ./custom/tests/modules/IRM_IPRestrictionManager/*
 * ./custom/src/Symfony/Component/HttpFoundation/*
 * ./custom/clients/base/api/CustomOAuth2Api.php
 * ./custom/clients/base/api/CustomCurrentUserApi.php
