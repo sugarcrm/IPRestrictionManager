@@ -34,19 +34,6 @@ class IRM_IPRestrictionManager_sugar extends Basic
     public $platforms;
     public $disable_row_level_security = true;
 
-    /**
-     * This is a deprecated method, please start using __construct() as this
-     * method will be removed in a future version.
-     *
-     * @see __construct
-     * @deprecated
-     */
-    public function IRM_IPRestrictionManager_sugar()
-    {
-        $GLOBALS['log']->deprecated('Calls to IRM_IPRestrictionManager::IRM_IPRestrictionManager are deprecated.');
-        self::__construct();
-    }
-
     public function __construct()
     {
         parent::__construct();

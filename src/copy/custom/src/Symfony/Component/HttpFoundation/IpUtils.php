@@ -1,6 +1,6 @@
 <?php
 
-/* https://github.com/symfony/http-foundation/blob/master/IpUtils.php / v3.2.8
+/* https://github.com/symfony/http-foundation/blob/master/IpUtils.php / v3.3.6
  *
  * This file is part of the Symfony package.
  *
@@ -10,8 +10,9 @@
  * file that was distributed with this source code.
  *
  *
- * MODIFICATIONS - jclark
- * The checkIp method has been slightly modified so that the dynamic $method() calls can pass Sugar's Package Scanner
+ * MODIFICATIONS - jclark@sugarcrm.com
+ * - The checkIp method has been slightly modified so that the dynamic $method() calls can pass Sugar's Package Scanner
+ * - Namespace changed from \Symfony\Component\HttpFoundation to \Sugarcrm\Sugarcrm\custom\Symfony\Component\HttpFoundation
  */
 
 namespace Sugarcrm\Sugarcrm\custom\Symfony\Component\HttpFoundation;
@@ -23,6 +24,8 @@ namespace Sugarcrm\Sugarcrm\custom\Symfony\Component\HttpFoundation;
  */
 class IpUtils
 {
+    private static $checkedIps = array();
+
     /**
      * This class should not be instantiated.
      */
@@ -73,26 +76,31 @@ class IpUtils
      */
     public static function checkIp4($requestIp, $ip)
     {
+        $cacheKey = $requestIp.'-'.$ip;
+        if (isset(self::$checkedIps[$cacheKey])) {
+            return self::$checkedIps[$cacheKey];
+        }
+
         if (!filter_var($requestIp, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-            return false;
+            return self::$checkedIps[$cacheKey] = false;
         }
 
         if (false !== strpos($ip, '/')) {
             list($address, $netmask) = explode('/', $ip, 2);
 
             if ($netmask === '0') {
-                return filter_var($address, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
+                return self::$checkedIps[$cacheKey] = filter_var($address, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
             }
 
             if ($netmask < 0 || $netmask > 32) {
-                return false;
+                return self::$checkedIps[$cacheKey] = false;
             }
         } else {
             $address = $ip;
             $netmask = 32;
         }
 
-        return 0 === substr_compare(sprintf('%032b', ip2long($requestIp)), sprintf('%032b', ip2long($address)), 0, $netmask);
+        return self::$checkedIps[$cacheKey] = 0 === substr_compare(sprintf('%032b', ip2long($requestIp)), sprintf('%032b', ip2long($address)), 0, $netmask);
     }
 
     /**
@@ -112,6 +120,11 @@ class IpUtils
      */
     public static function checkIp6($requestIp, $ip)
     {
+        $cacheKey = $requestIp.'-'.$ip;
+        if (isset(self::$checkedIps[$cacheKey])) {
+            return self::$checkedIps[$cacheKey];
+        }
+
         if (!((extension_loaded('sockets') && defined('AF_INET6')) || @inet_pton('::1'))) {
             throw new \RuntimeException('Unable to check Ipv6. Check that PHP was not compiled with option "disable-ipv6".');
         }
@@ -120,7 +133,7 @@ class IpUtils
             list($address, $netmask) = explode('/', $ip, 2);
 
             if ($netmask < 1 || $netmask > 128) {
-                return false;
+                return self::$checkedIps[$cacheKey] = false;
             }
         } else {
             $address = $ip;
@@ -131,7 +144,7 @@ class IpUtils
         $bytesTest = unpack('n*', @inet_pton($requestIp));
 
         if (!$bytesAddr || !$bytesTest) {
-            return false;
+            return self::$checkedIps[$cacheKey] = false;
         }
 
         for ($i = 1, $ceil = ceil($netmask / 16); $i <= $ceil; ++$i) {
@@ -139,10 +152,10 @@ class IpUtils
             $left = ($left <= 16) ? $left : 16;
             $mask = ~(0xffff >> $left) & 0xffff;
             if (($bytesAddr[$i] & $mask) != ($bytesTest[$i] & $mask)) {
-                return false;
+                return self::$checkedIps[$cacheKey] = false;
             }
         }
 
-        return true;
+        return self::$checkedIps[$cacheKey] = true;
     }
 }

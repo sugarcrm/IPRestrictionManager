@@ -6,19 +6,7 @@ use Sugarcrm\Sugarcrm\custom\Symfony\Component\HttpFoundation\IpUtils;
 
 class IRM_IPRestrictionManager extends IRM_IPRestrictionManager_sugar
 {
-
     public $prefix = "IRM :: ";
-
-    /**
-     * This is a depreciated method, please start using __construct() as this method will be removed in a future version
-     *
-     * @see __construct
-     * @depreciated
-     */
-    function IRM_IPRestrictionManager()
-    {
-        self::__construct();
-    }
 
     /**
      * IRM_IPRestrictionManager constructor.
@@ -29,7 +17,7 @@ class IRM_IPRestrictionManager extends IRM_IPRestrictionManager_sugar
     }
 
     /**
-     * Validates the ip against a range.
+     * Validates the ip against a range syntax.
      *
      * @param $ip
      * @param $range
@@ -44,6 +32,30 @@ class IRM_IPRestrictionManager extends IRM_IPRestrictionManager_sugar
      */
     public function validateRange($ip, $range)
     {
+        //handle wildcard addresses
+        if ($this->hasString('*', $range)) {
+            $range = str_replace('*', '0', $range) . '-' . str_replace('*', '255', $range);
+        }
+
+        //handle ranges
+        if ($this->hasString('-', $range)) {
+            list($lower, $upper) = explode('-', $range, 2);
+            $lowerConverted = (float)sprintf("%u", ip2long($lower));
+            $upperConverted = (float)sprintf("%u", ip2long($upper));
+            $ipConverted = (float)sprintf("%u", ip2long($ip));
+            return (($ipConverted >= $lowerConverted) && ($ipConverted <= $upperConverted));
+        }
+
+        //handle ip-netmask
+        if ($this->hasString('/', $range)) {
+            list($range, $netmask) = explode('/', $range, 2);
+            if ($this->hasString('.', $netmask)) {
+                $netmaskConverted = ip2long($netmask);
+                return ((ip2long($ip) & $netmaskConverted) == (ip2long($range) & $netmaskConverted));
+            }
+        }
+
+        //else validate ip4/ip6/CIDR
         return IpUtils::checkIp($ip, $range);
     }
 
@@ -81,7 +93,7 @@ class IRM_IPRestrictionManager extends IRM_IPRestrictionManager_sugar
      */
     public function getUserRestrictions($userId)
     {
-        $userObj = BeanFactory::getBean('Users', $userId);
+        $userObj = \BeanFactory::getBean('Users', $userId);
         $restrictions = array();
 
         $GLOBALS['log']->info($this->prefix . "Fetching restrictions for {$userObj->id}/{$userObj->user_name}");
@@ -120,7 +132,7 @@ class IRM_IPRestrictionManager extends IRM_IPRestrictionManager_sugar
             //add private team
             $privateId = $userObj->getPrivateTeam();
             if (!empty($privateId)) {
-                $teams[$privateId] = BeanFactory::getBean("Teams", $privateId);
+                $teams[$privateId] = \BeanFactory::getBean("Teams", $privateId);
             }
 
             foreach ($teams as $teamObj) {
@@ -155,8 +167,8 @@ class IRM_IPRestrictionManager extends IRM_IPRestrictionManager_sugar
             return $isValidated;
         }
 
-        $sugarQuery = new SugarQuery();
-        $userObj = BeanFactory::newBean('Users');
+        $sugarQuery = new \SugarQuery();
+        $userObj = \BeanFactory::newBean('Users');
 
         //find user
         $sugarQuery->select(array('id'));
@@ -165,7 +177,7 @@ class IRM_IPRestrictionManager extends IRM_IPRestrictionManager_sugar
         $sugarQuery->limit(1);
 
         $userId = false;
-        foreach($sugarQuery->execute() as $row) {
+        foreach ($sugarQuery->execute() as $row) {
             $userId = $row['id'];
         }
 

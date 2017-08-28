@@ -1,1 +1,11 @@
 .idea/*
+*.bak
+*.orig
+*.swp
+*.log
+.nfs*
+.travis/encrypt/*
+.travis/*.tar
+.travis/*.tar.gz
+.travis/*.enc
+.DS_Store
