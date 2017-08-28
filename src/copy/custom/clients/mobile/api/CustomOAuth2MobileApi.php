@@ -2,7 +2,7 @@
 
 if (!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
 
-class CustomOAuth2Api extends OAuth2Api
+class CustomOAuth2MobileApi extends OAuth2MobileApi
 {
     /**
      * Register api endpoints

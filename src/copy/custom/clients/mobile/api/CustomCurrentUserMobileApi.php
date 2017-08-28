@@ -2,7 +2,7 @@
 
 if (!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
 
-class CustomCurrentUserApi extends CurrentUserApi
+class CustomCurrentUserMobileApi extends CurrentUserMobileApi
 {
     /**
      * Register api endpoints
