@@ -31,13 +31,22 @@ class IPTest extends Sugar_PHPUnit_Framework_TestCase
 
         //Specific
         $this->assertTrue($bean->validateRange('1.2.3.4', '1.2.3.4'));
+        $this->assertFalse($bean->validateRange('1.2.3.4', '1.2.3.5'));
+
         //Wildcard
-        $this->assertTrue($bean->validateRange('1.2.3.4', '1.2.3.2-1.2.3.5'));
+        $this->assertTrue($bean->validateRange('1.2.3.4', '1.2.3.1-1.2.3.5'));
+        $this->assertFalse($bean->validateRange('1.2.3.4', '1.2.3.1-1.2.3.3'));
+
         //IP/Netmask
-        $this->assertTrue($bean->validateRange('1.3.3.4', '1.2.3.4/255.255.255.0'));
+        $this->assertTrue($bean->validateRange('1.2.3.4', '1.2.3.4/255.255.255.0'));
+        $this->assertFalse($bean->validateRange('1.2.3.4', '1.3.3.4/255.255.255.0'));
+
         //CIDR
         $this->assertTrue($bean->validateRange('1.2.3.4', '1.2.3.4/32'));
+        $this->assertTrue($bean->validateRange('1.2.3.4', '1.3.3.4/32'));
+        
         //Range
         $this->assertTrue($bean->validateRange('1.2.3.4', '1.2.3.*'));
+        $this->assertFalse($bean->validateRange('1.2.3.4', '1.2.2.*'));
     }
 }
