@@ -91,20 +91,12 @@ $installdefs = array(
             'to' => 'custom/Extension/modules/Administration/Ext/Language/en_us.IPRestrictionManager.php'
         ),
         array(
-            'from' => '<basepath>/copy/custom/Extension/modules/IRM_IPRestrictionManager/Ext/Language/en_us.IPRestrictionManager.php',
-            'to' => 'custom/Extension/modules/IRM_IPRestrictionManager/Ext/Language/en_us.IPRestrictionManager.php'
-        ),
-        array(
             'from' => '<basepath>/copy/custom/clients/base/api/CustomOAuth2Api.php',
             'to' => 'custom/clients/base/api/CustomOAuth2Api.php'
         ),
         array(
             'from' => '<basepath>/copy/custom/clients/base/api/CustomCurrentUserApi.php',
             'to' => 'custom/clients/base/api/CustomCurrentUserApi.php'
-        ),
-        array(
-            'from' => '<basepath>/copy/custom/Extension/modules/IRM_IPRestrictionManager/Ext/Vardefs/aclRestrictions.php',
-            'to' => 'custom/Extension/modules/IRM_IPRestrictionManager/Ext/Vardefs/aclRestrictions.php'
         ),
         array(
             'from' => '<basepath>/copy/custom/src/Symfony/Component/HttpFoundation/IpUtils.php',

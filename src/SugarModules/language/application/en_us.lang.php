@@ -1,9 +1,6 @@
 <?php
 
-
-$app_list_strings['moduleList']['IRM_IP_Restriction_Manager'] = 'IP Restrictions';
 $app_list_strings['moduleList']['IRM_IPRestrictionManager'] = 'IP Restrictions';
-$app_list_strings['moduleListSingular']['IRM_IP_Restriction_Manager'] = 'IP Restriction';
 $app_list_strings['moduleListSingular']['IRM_IPRestrictionManager'] = 'IP Restriction';
 $app_list_strings['ip_restriction_status_list']['Enabled'] = 'Enabled';
 $app_list_strings['ip_restriction_status_list']['Disabled'] = 'Disabled';
