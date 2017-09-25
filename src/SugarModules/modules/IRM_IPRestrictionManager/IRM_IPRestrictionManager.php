@@ -156,14 +156,18 @@ class IRM_IPRestrictionManager extends IRM_IPRestrictionManager_sugar
      * @param $username
      * @param $platform
      * @param bool $allowLocal
+     * @param bool $ip
      * @return bool
      * @throws SugarQueryException
      */
-    public function validateUser($username, $platform, $allowLocal = true)
+    public function validateUser($username, $platform, $allowLocal = true, $ip = false)
     {
         //all users are validated unless we find restrictions for them
         $isValidated = true;
-        $ip = $this->getIpAddress();
+
+        if ($ip == false) {
+            $ip = $this->getIpAddress();
+        }
 
         //always allow local server access
         if ($allowLocal && ($ip == '::1' || $ip == '127.0.0.1')) {
@@ -220,11 +224,17 @@ class IRM_IPRestrictionManager extends IRM_IPRestrictionManager_sugar
      * @param $api
      * @param $username
      * @param $platform
+     * @param bool $allowLocal
+     * @param bool $ip
      */
-    public function validateAPI($api, $username, $platform)
+    public function validateAPI($api, $username, $platform, $allowLocal = true, $ip = false)
     {
+        if ($ip == false) {
+            $ip = $this->getIpAddress();
+        }
+
         //check IP range for user
-        $isValidRange = $this->validateUser($username, $platform);
+        $isValidRange = $this->validateUser($username, $platform, $allowLocal, $ip);
 
         if (!$isValidRange) {
             //expire cookie
@@ -237,7 +247,7 @@ class IRM_IPRestrictionManager extends IRM_IPRestrictionManager_sugar
             $beginning = translate("LBL_ERROR_BEGINNING", 'IRM_IPRestrictionManager');
             $join = translate("LBL_ERROR_JOIN", 'IRM_IPRestrictionManager');
 
-            $e = new SugarApiExceptionNeedLogin("{$beginning} ({$this->getIpAddress()}) {$join} ({$platform}).");
+            $e = new SugarApiExceptionNeedLogin("{$beginning} ({$ip}) {$join} ({$platform}).");
             $api->needLogin($e);
         }
     }
