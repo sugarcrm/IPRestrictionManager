@@ -115,7 +115,7 @@ Please note these should only be removed if you are not planning to install an u
 * irm_iprestrictionmanager_users_c
 
 # Recovering When Locked Out
-Should a situation occur where you are unable to authenticate, you can use the section below to regain access to the system. You should note that the the IP Restriction Manager is always disabled if the user is logging in from `localhost` or `127.0.0.1`.
+Should a situation occur where you are unable to authenticate, you can use the section below to regain access to the system. You should note that the the IP Restriction Manager is always disabled if the user is logging in from `localhost` or `127.0.0.1`. If you need to disable this check for local testing, it can be found [here](https://github.com/sugarcrm/IPRestrictionManager/blob/master/src/SugarModules/modules/IRM_IPRestrictionManager/IRM_IPRestrictionManager.php#L173).
 
 ## On-Site
 
