@@ -135,7 +135,7 @@ public function validateAPI($api, $username, $platform)
 }
 ```
 
-## On-Demand
+## Sugar cloud
 If you are On-Demand, you will need to submit a support ticket by logging into http://www.sugarcrm.com/support/portal. Please describe the issue you are experiencing, reference the IP Restriction Manager, and provide a link to this documentation.
 
 # Using the Module
