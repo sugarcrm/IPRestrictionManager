@@ -3,16 +3,13 @@
 $manifest = array(
     'acceptable_sugar_versions' => array(
         'regex_matches' => array(
-            '^7.5\\..+',
-            '^7.6\\..+',
-            '^7.7\\..+',
-            '^7.8\\..+',
-            '^7.9\\..+'
+            '^7.9\\..+',
+            '^7.11\\..+',
+            '^8.0\\..+'
         )
     ),
     'acceptable_sugar_flavors' => array(
         'PRO',
-        'CORP',
         'ENT',
         'ULT'
     ),
