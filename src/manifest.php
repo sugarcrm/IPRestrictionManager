@@ -5,7 +5,7 @@ $manifest = array(
         'regex_matches' => array(
             '^7.9\\..+',
             '^7.11\\..+',
-            '^8\\..+'
+            '^8.0\\..+'
         )
     ),
     'acceptable_sugar_flavors' => array(
