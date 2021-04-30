@@ -3,9 +3,9 @@
 $manifest = array(
     'acceptable_sugar_versions' => array(
         'regex_matches' => array(
-            '^7.9\\..+',
-            '^7.11\\..+',
-            '^8.0\\..+'
+            '^9.0\\..+',
+            '^10.0\\..+',
+            '^11.0\\..+',
         )
     ),
     'acceptable_sugar_flavors' => array(
@@ -20,9 +20,9 @@ $manifest = array(
     'icon' => '',
     'is_uninstallable' => true,
     'name' => 'IP Restriction Manager',
-    'published_date' => '2017-05-04 12:00:00',
+    'published_date' => '2021-04-30 10:52:00',
     'type' => 'module',
-    'version' => '2.2',
+    'version' => '2.4',
     'remove_tables' => 'prompt'
 );
 
